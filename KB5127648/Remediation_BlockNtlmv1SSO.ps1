@@ -3,13 +3,13 @@ $ValueName    = "BlockNtlmv1SSO"
 $DesiredValue = 0
 
 try {
-    # Créer la clé si elle n'existe pas
+    # Create the key if it does not exist
     if (-not (Test-Path -LiteralPath $RegistryPath)) {
         New-Item -Path $RegistryPath -Force -ErrorAction Stop |
             Out-Null
     }
 
-    # Créer ou corriger la valeur DWORD
+    # Create or fix the DWORD value
     New-ItemProperty `
         -LiteralPath $RegistryPath `
         -Name $ValueName `
@@ -18,7 +18,7 @@ try {
         -Force `
         -ErrorAction Stop | Out-Null
 
-    # Vérifier la remédiation
+    # Verify the remediation
     $Key = Get-Item -LiteralPath $RegistryPath -ErrorAction Stop
     $FinalValue = Get-ItemPropertyValue `
         -LiteralPath $RegistryPath `
@@ -28,13 +28,13 @@ try {
 
     if ($FinalValue -eq 0 -and
         $FinalType -eq [Microsoft.Win32.RegistryValueKind]::DWord) {
-        Write-Output "SUCCÈS : BlockNtlmv1SSO = 0 (REG_DWORD)."
+        Write-Output "SUCCESS: BlockNtlmv1SSO = 0 (REG_DWORD)."
         exit 0
     }
 
-    throw "La vérification après remédiation a échoué."
+    throw "Post-remediation verification failed."
 }
 catch {
-    Write-Output "ÉCHEC : $($_.Exception.Message)"
+    Write-Output "FAILURE: $($_.Exception.Message)"
     exit 1
 }
