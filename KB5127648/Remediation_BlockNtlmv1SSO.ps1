@@ -1,3 +1,18 @@
+<#
+.DESCRIPTION
+    Ensures that the Windows registry setting BlockNtlmv1SSO is set to 0 in the
+    MSV1_0 registry key to disable NTLMv1 SSO.
+
+    If the key is missing, it is created. If the value is absent or incorrect,
+    it is recreated with the expected DWORD value, then verified.
+
+.NOTES
+    Version       : 1.0
+    Author        : Christopher Mogis
+    Creation Date : 15/10/2026
+    Modification  : 15/10/2026
+#>
+
 $RegistryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\MSV1_0"
 $ValueName    = "BlockNtlmv1SSO"
 $DesiredValue = 0
