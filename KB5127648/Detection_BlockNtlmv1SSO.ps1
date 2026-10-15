@@ -4,7 +4,7 @@ $DesiredValue = 0
 
 try {
     if (-not (Test-Path -LiteralPath $RegistryPath)) {
-        Write-Output "NON CONFORME : la clé de registre est absente."
+        Write-Output "NOT COMPLIANT: the registry key is missing."
         exit 1
     }
 
@@ -12,7 +12,7 @@ try {
 
     if ($Key.GetValueKind($ValueName) -ne
         [Microsoft.Win32.RegistryValueKind]::DWord) {
-        Write-Output "NON CONFORME : la valeur est absente ou son type est incorrect."
+        Write-Output "NOT COMPLIANT: the value is missing or it s type is incorrect."
         exit 1
     }
 
@@ -22,14 +22,14 @@ try {
         -ErrorAction Stop
 
     if ($CurrentValue -ne $DesiredValue) {
-        Write-Output "NON CONFORME : valeur actuelle = $CurrentValue ; valeur attendue = 0."
+        Write-Output "NOT COMPLIANT: current value = $CurrentValue; expected value = 0."
         exit 1
     }
 
-    Write-Output "CONFORME : BlockNtlmv1SSO = 0 (REG_DWORD)."
+    Write-Output "COMPLIANT: BlockNtlmv1SSO = 0 (REG_DWORD)."
     exit 0
 }
 catch {
-    Write-Output "NON CONFORME : erreur de lecture du registre. $($_.Exception.Message)"
+    Write-Output "NOT COMPLIANT: registry read error. $($_.Exception.Message)"
     exit 1
 }
